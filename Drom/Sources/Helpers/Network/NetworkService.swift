@@ -35,7 +35,8 @@ final class NetworkService: NetworkServiceProtocol {
                             completion(.failure(error))
                         }
                         if let data = data {
-                            guard let self = self else { return }; guard let image = UIImage(data: data) else { return }
+                            guard let self = self else { return }
+                            guard let image = UIImage(data: data) else { return }
                             self.imageCache.setObject(image, forKey: url.absoluteString as NSString)
                             completion(.success(image))
                         }
