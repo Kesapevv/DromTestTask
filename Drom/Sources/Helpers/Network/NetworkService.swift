@@ -30,12 +30,12 @@ final class NetworkService: NetworkServiceProtocol {
                 } else {
                     let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 10)
                     
-                    URLSession.shared.dataTask(with: request) { data, _, error in
+                    URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
                         if let error = error {
                             completion(.failure(error))
                         }
                         if let data = data {
-                            guard let image = UIImage(data: data) else { return }
+                            guard let self = self else { return }; guard let image = UIImage(data: data) else { return }
                             self.imageCache.setObject(image, forKey: url.absoluteString as NSString)
                             completion(.success(image))
                         }

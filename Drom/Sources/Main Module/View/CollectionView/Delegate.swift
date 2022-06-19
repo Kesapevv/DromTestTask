@@ -13,11 +13,12 @@ extension MainVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         UIView.animate(withDuration: 0.5) {
             if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell { cell.image.center.x += ScreenSize.width / 1 - 10 }
-        } completion: { Bool in
+        } completion: { [weak self ]Bool in
             ImageModel.images.remove(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
             collectionView.reloadData()
             if indexPath.row <= 3 {
+                guard let self = self else { return }
                 self.presenter?.fetchData()
             }
         }
